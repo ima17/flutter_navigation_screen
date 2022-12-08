@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_navigation_screen/screens/home_screen.dart';
+import 'package:flutter_navigation_screen/screens/screen_1.dart';
+import 'package:flutter_navigation_screen/screens/screen_2.dart';
 
 class NavigationScreen extends StatefulWidget {
-  const NavigationScreen({Key? key, required this.title}) : super(key: key);
+  const NavigationScreen({Key? key, required this.index}) : super(key: key);
 
-  final String title;
+  final int index;
 
   @override
   State<NavigationScreen> createState() => _NavigationScreenState();
@@ -11,6 +14,16 @@ class NavigationScreen extends StatefulWidget {
 
 class _NavigationScreenState extends State<NavigationScreen> {
   int currentPageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.index != currentPageIndex) {
+      setState(() {
+        currentPageIndex = widget.index;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,36 +37,24 @@ class _NavigationScreenState extends State<NavigationScreen> {
         selectedIndex: currentPageIndex,
         destinations: const <Widget>[
           NavigationDestination(
-            icon: Icon(Icons.explore),
-            label: 'Explore',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           NavigationDestination(
             icon: Icon(Icons.commute),
-            label: 'Commute',
+            label: 'Screen 01',
           ),
           NavigationDestination(
             selectedIcon: Icon(Icons.bookmark),
             icon: Icon(Icons.bookmark_border),
-            label: 'Saved',
+            label: 'Screen 02',
           ),
         ],
       ),
       body: <Widget>[
-        Container(
-          color: Colors.red,
-          alignment: Alignment.center,
-          child: const Text('Page 1'),
-        ),
-        Container(
-          color: Colors.green,
-          alignment: Alignment.center,
-          child: const Text('Page 2'),
-        ),
-        Container(
-          color: Colors.blue,
-          alignment: Alignment.center,
-          child: const Text('Page 3'),
-        ),
+        const HomeScreen(),
+        const Screen1(),
+        const Screen2(),
       ][currentPageIndex],
     );
   }
